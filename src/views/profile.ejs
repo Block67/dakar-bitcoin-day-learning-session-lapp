@@ -1,17 +1,37 @@
-<h1 class="display-5 fw-bold text-center">
-  Hi, <%= user.id.substring(0, 10) %>!
-</h1>
-<p class="lead text-center">
-  🤖 Welcome !
-</p>
+<div id="profile-view" class="h-full overflow-y-auto w-full pt-32">
+    <div class="sm:px-6 lg:px-8 max-w-7xl mx-auto px-4">
+        
+        <!-- Hero Style Profile -->
+        <section class="z-10 text-center max-w-5xl mx-auto py-20 relative">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-500 mb-8 text-[10px] uppercase tracking-[0.2em] font-bold">
+            Verified Identity Node
+          </div>
+          
+          <h1 class="sm:text-6xl md:text-8xl text-4xl tracking-tighter max-w-5xl mx-auto font-bold">
+            Sigil#<%= user.id.substring(0, 6) %>
+          </h1>
 
+          <p class="sm:text-lg text-base font-normal text-white/70 max-w-3xl mt-8 mx-auto leading-relaxed">
+            Your identity is cryptographically active. You are connected via the public key:<br>
+            <span class="font-mono text-orange-500/80 break-all text-sm mt-4 block"><%= user.id %></span>
+          </p>
 
-<h1 class="display-5 fw-bold text-center">
-  Request a payment
-</h1>
+          <div class="flex flex-col sm:flex-row mt-12 gap-3 items-center justify-center">
+            <a href="/" class="bg-white text-black font-bold px-10 py-4 rounded-2xl hover:bg-neutral-200 transition transform hover:scale-105 shadow-2xl">
+                Home
+            </a>
+            <a href="/logout" class="inline-flex items-center gap-2 hover:bg-red-500/10 text-base font-medium text-red-400 bg-white/5 border border-white/10 rounded-2xl px-10 py-4 backdrop-blur transition">
+              Logout session
+            </a>
+          </div>
+        </section>
 
-<p class="text-center">
-  <a class="btn btn-danger btn-xxl" href="#" onclick="payWithCheckout(1, 'Payment description')">
-    Pay 1 sat
-  </a> 
-</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-white/5 border-t py-16 relative mt-20">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <p class="text-xs text-white/30 uppercase tracking-[0.3em]">Sigil Protocol — Built for Sovereignty</p>
+      </div>
+    </footer>
+</div>

@@ -1,8 +1,34 @@
 const signinButton = document.getElementById('signin-button');
 const qrButton = document.querySelector('#signin .qr-button');
 const weblnButton = document.querySelector('#signin .webln-button');
-const loginModal = new bootstrap.Modal('#signin');
+
 let signinActive = false;
+
+// Mock bootstrap modal if it doesn't exist to prevent crashes
+if (typeof bootstrap === 'undefined') {
+    window.bootstrap = {
+        Modal: function() {
+            return {
+                show: () => {
+                    const modal = document.getElementById('signin');
+                    if (modal) {
+                        modal.classList.remove('hidden');
+                        setTimeout(() => modal.classList.replace('opacity-0', 'opacity-100'), 10);
+                    }
+                },
+                hide: () => {
+                    const modal = document.getElementById('signin');
+                    if (modal) {
+                        modal.classList.replace('opacity-100', 'opacity-0');
+                        setTimeout(() => modal.classList.add('hidden'), 300);
+                    }
+                }
+            }
+        }
+    };
+}
+
+const loginModal = new bootstrap.Modal('#signin');
 
 async function signin() {
 
@@ -10,57 +36,60 @@ async function signin() {
         return;
 
     signinActive = true;
-
     loginModal.show();
 
-    document.getElementById('signin').addEventListener('hidden.bs.modal', (event) => {
-        signinButton.disabled = false;
-        signinButton.innerHTML = '<i class="bi bi-currency-bitcoin"></i> Sign in';
-        signinActive = false;
-    });
-
-    signinButton.disabled = true;
-    signinButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span class="sr-only"> Connecting...</span>`;
-
-    const request = await fetch('/do-login');
-    const result = await request.json();
-
-    document.querySelector('#signin .qr-link').href = "lightning:" + result.lnurl;
-    document.querySelector('#signin .qr').src = result.qrCode;
-
-    if (window.webln) {
-        weblnButton.href = "lightning:" + result.lnurl;
-        weblnButton.classList.remove('d-none');
-    } else {
-        qrButton.classList.add('d-none');
-        startQr();
+    if (signinButton) {
+        signinButton.disabled = true;
+        signinButton.innerHTML = `<div class="animate-spin h-4 w-4 border-b-2 border-white rounded-full"></div>`;
     }
 
-    startPolling(1000, function () {
+    try {
+        const request = await fetch('/do-login');
+        const result = await request.json();
+
+        const qrLink = document.querySelector('#signin .qr-link');
+        const qrImg = document.querySelector('#signin .qr');
+
+        if (qrLink) qrLink.href = "lightning:" + result.lnurl;
+        if (qrImg) qrImg.src = result.qrCode;
+
+        if (window.webln && weblnButton) {
+            weblnButton.href = "lightning:" + result.lnurl;
+            weblnButton.classList.remove('hidden', 'd-none');
+        } else {
+            if (qrButton) qrButton.classList.add('hidden', 'd-none');
+            startQr();
+        }
+
+        startPolling(1000, function () {
+            signinActive = false;
+            window.location.reload();
+        });
+    } catch (e) {
+        console.error("Signin error:", e);
         signinActive = false;
-        window.location.reload();
-    });
+    }
 }
 
 function loading() {
-    document.querySelector('#signin .modal-footer').classList.remove('d-none');
+    const footer = document.querySelector('#signin .modal-footer');
+    if (footer) footer.classList.remove('hidden', 'd-none');
 }
 
 function startQr() {
     loading();
-    document.querySelector('#signin  .qr-container').classList.remove('d-none');
-}
-
-function startWebLN() {
-    loading();
-    weblnButton.disabled = true;
+    const qrContainer = document.querySelector('#signin .qr-container');
+    if (qrContainer) qrContainer.classList.remove('hidden', 'd-none');
 }
 
 async function isSignedIn() {
-    const response = await fetch('/me');
-    const result = await response.json();
-
-    return result.user != null;
+    try {
+        const response = await fetch('/me');
+        const result = await response.json();
+        return result.user != null;
+    } catch (e) {
+        return false;
+    }
 }
 
 function startPolling(timeout, onSuccess) {

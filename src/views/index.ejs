@@ -1,11 +1,64 @@
-<% if(!user) { %>
-  <div class="px-4 py-5 my-5 text-center">
-    <img class="d-block mx-auto mb-4" src="/apple-touch-icon.png" alt="" width="72" height="57">
-    <h1 class="display-5 fw-bold">Hello Dakar</h1>
-  </div>
-<% } else { %>
-  <div class="px-4 py-5 my-5 text-center">
+<div id="landing-view" class="h-full overflow-y-auto w-full pt-32">
+    <div class="sm:px-6 lg:px-8 max-w-7xl mx-auto px-4">
+        <!-- Hero -->
+        <section class="z-10 text-center max-w-5xl mx-auto py-20 relative">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/50 mb-8 text-[10px] uppercase tracking-[0.2em] font-bold">
+            Bitcoin Identity Protocol
+          </div>
+          
+          <h1 class="sm:text-6xl md:text-8xl text-4xl tracking-tighter max-w-5xl mx-auto font-bold">
+            Secure your digital presence with Sigil.
+          </h1>
 
-      <h1 class="display-5 fw-bold">Welcome, <%= user.id.substring(0, 10) %>!</h1>
-  </div>
-<% } %>
+          <p class="sm:text-lg text-base font-normal text-white/70 max-w-2xl mt-8 mx-auto">
+            Sigil leverages the Bitcoin network to provide high-fidelity, sovereign authentication. No middlemen, no tracking, just pure cryptography.
+          </p>
+
+          <div class="flex flex-col sm:flex-row mt-10 gap-3 items-center justify-center">
+            <% if(!user) { %>
+                <button onclick="openModal()" class="bg-white text-black font-bold px-10 py-4 rounded-2xl hover:bg-neutral-200 transition transform hover:scale-105 active:scale-95 shadow-2xl">
+                    Enter the Protocol
+                </button>
+            <% } else { %>
+                <a href="/profile" class="bg-orange-500 text-black font-bold px-10 py-4 rounded-2xl hover:bg-orange-400 transition transform hover:scale-105 shadow-[0_0_40px_rgba(247,147,26,0.3)]">
+                    Identity Dashboard
+                </a>
+            <% } %>
+            <button class="inline-flex items-center gap-2 hover:bg-white/10 text-base font-medium text-white/90 bg-white/5 border border-white/10 rounded-2xl px-10 py-4 backdrop-blur transition">
+              Documentation
+            </button>
+          </div>
+        </section>
+
+        <!-- Features -->
+        <section class="z-10 pt-20 pb-20 relative" id="features">
+          <div class="grid gap-8 md:grid-cols-3">
+            <div class="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 md:col-span-2 md:row-span-2 p-10">
+                <div class="w-12 h-12 bg-orange-500/10 rounded-2xl flex items-center justify-center mb-8">
+                    <i data-lucide="shield" class="w-6 h-6 text-orange-500"></i>
+                </div>
+                <h3 class="text-4xl font-bold mb-6 tracking-tight">Sovereign Identity</h3>
+                <p class="text-white/50 text-lg leading-relaxed">Sigil removes the need for central authorities. Your Lightning wallet is your only passport, protected by the strongest network on Earth.</p>
+            </div>
+            <div class="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-8">
+                <h3 class="text-xl font-bold mb-3 text-emerald-400">Zero Trust</h3>
+                <p class="text-sm text-white/50 leading-relaxed">No emails. No phone numbers. No passwords. Only cryptographic proof.</p>
+            </div>
+            <div class="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-8">
+                <h3 class="text-xl font-bold mb-3 text-sky-400">Lightning Fast</h3>
+                <p class="text-sm text-white/50 leading-relaxed">Authenticated in seconds via LNURL-Auth protocol.</p>
+            </div>
+          </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-white/5 border-t py-16 relative">
+      <div class="max-w-7xl mx-auto px-4 text-center">
+        <div class="flex items-center justify-center gap-2 mb-6 text-white/50">
+            <span class="text-sm font-bold tracking-tighter uppercase">Sigil</span>
+        </div>
+        <p class="text-xs text-white/30 uppercase tracking-[0.3em]">Built for the Sovereign Individual — 2025</p>
+      </div>
+    </footer>
+</div>

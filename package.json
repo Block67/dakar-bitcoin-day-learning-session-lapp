@@ -1,7 +1,7 @@
 {
-  "name": "lapp-template",
-  "version": "0.0.1",
-  "description": "A project template to jump-start developing a ⚡ Lightning app.",
+  "name": "sigil",
+  "version": "1.0.0",
+  "description": "Sigil — Private & Sovereign Identity powered by Bitcoin Lightning.",
   "main": "src/server/server.js",
   "scripts": {
     "start": "node src/server/server.js"
@@ -28,13 +28,11 @@
   "engines": {
     "node": "16.x"
   },
-  "repository": {
-    "url": "https://glitch.com/edit/#!/lapp-template"
-  },
   "license": "MIT",
   "keywords": [
-    "node",
-    "glitch",
-    "express"
+    "bitcoin",
+    "lightning",
+    "identity",
+    "auth"
   ]
 }
